@@ -112,18 +112,11 @@ val mylist = List(1, 2, 3)  // note the type inference
 // val mylist: List[Int] = List(1, 2, 3)
 ```
 
-Some useful methods on List:
-```scala
-mylist.size
-mylist.contains(2)
-mylist.map( x => x + 1 )
-mylist.filter( x => x < 2)
-```
-
 Prepending an item is O(1) since we are effectively using a linked-list:
 ```scala
 val myBuddies = List("Boycat", "Caroline")
 val allBuddies = "Arno" :: myBuddies
+val anEmptyList = List.empty[Int]
 ```
 
 The `::` operator is useful with pattern matching:
@@ -137,7 +130,60 @@ allBuddies match
 
 Accessing elements:
 ```scala
-allBuddies.head
-allBuddies.tail.head
-allBuddies(1)  // linear time for random access by index, same for the `.size` method
+allBuddies.head  // returns: val res14: String = Arno
+allBuddies.tail.head  // returns: val res15: String = Boycat
+allBuddies(1)  // linear time for random access by index
 ```
+
+Some useful methods on List:
+```scala
+mylist.size  // O(n) operation
+mylist.contains(2)
+mylist.map( x => x + 1 )
+mylist.filter( x => x < 2)
+```
+
+
+## Collection of values: Tuple
+
+Tuple contains a fixed set of values. Values can be of different types (so not like List).
+
+```scala
+val triple = ("Hello", 1, false)
+```
+
+Pattern matching on tuple to extract values:
+```scala
+val (_, number, _) = triple  // note the wildcard to discard some values
+// returns:
+// val number: Int = 1
+```
+
+## Associtive array: Map
+
+Creating a Map:
+```scala
+Map("a" -> true, "b" -> false)  // keys must be of the same type, values must be of the same type
+// returns:
+// val res18: Map[String, Boolean] = Map(a -> true, b -> false)
+
+// Or initialize an empty map:
+val emptyMap = Map.empty[String, Boolean]
+```
+
+
+
+## Mutable collections
+
+By default only immutable collections (such as List) are imported.
+
+Mutable collections (e.g. ArrayBuffer) are availabe with an import:
+```scala
+import scala.collection.mutable
+val myEmptyArray = mutable.ArrayBuffer.empty[Double]
+
+// Initialize with values
+val myArray = mutable.ArrayBuffer("a", "b", "c")
+```
+
+
