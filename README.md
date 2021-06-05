@@ -4,7 +4,7 @@ This document contains various bits of information about Scala, most (all?) are 
 
 Most of these notes were written while watching the [Effective Programming in Scala](https://www.coursera.org/learn/effective-scala) course.
 
-**Variables**
+## Variables
 
 `def` can be used to name values. It will be evaluated everytime it is called, but only when needed (lazy).
 
@@ -18,7 +18,7 @@ val test = 12.0
 `def` and `val` can also be used to make functions, shown later.
 
 
-**Compound types: case classes**
+## Compound types: case classes
 
 Record-like data structure.
 
@@ -39,7 +39,7 @@ sq.area
 ```
 
 
-**Abstract types: sealed trait**
+## Abstract types: sealed trait
 
 Derive a case class from a sealed trait.
 
@@ -61,7 +61,7 @@ val area =
 ```
 
 
-**Collection of values: enum**
+## Collection of values: enum
 
 Define a type that can take only the given possible values.
 Pattern matching is also useful here.
