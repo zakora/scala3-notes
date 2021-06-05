@@ -24,13 +24,15 @@ Both `val` and `def` can be used to make functions.
 val myFunc: Int => Int =
   val incr = 100
   x => x + incr
+
+def add1(n: Int): Int = n + 1
   
 // Other signature form, without a return type
 val myAdd =
   (x: Int, y: Int) => x + y
 ```
 
-`val` functions can be passed around and returned, functional programming style. This is not possible with `def` functions. Also, `def` functions must be declared inside a class.
+`val` functions can be passed around and returned, functional programming style. This is not possible with `def`.
 
 
 ## Compound types: case classes
@@ -116,4 +118,26 @@ mylist.size
 mylist.contains(2)
 mylist.map( x => x + 1 )
 mylist.filter( x => x < 2)
+```
+
+Prepending an item is O(1) since we are effectively using a linked-list:
+```scala
+val myBuddies = List("Boycat", "Caroline")
+val allBuddies = "Arno" :: myBuddies
+```
+
+The `::` operator is useful with pattern matching:
+```scala
+allBuddies match
+  case head :: tail => println(head)
+  case _            => println("Oops")
+// prints:
+// Arno
+```
+
+Accessing elements:
+```scala
+allBuddies.head
+allBuddies.tail.head
+allBuddies(1)  // linear time for random access by index, same for the `.size` method
 ```
