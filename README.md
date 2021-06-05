@@ -15,7 +15,22 @@ def abc = 123
 val test = 12.0
 ```
 
-`def` and `val` can also be used to make functions, shown later.
+
+## Functions
+
+Both `val` and `def` can be used to make functions.
+
+```scala
+val myFunc: Int => Int =
+  val incr = 100
+  x => x + incr
+  
+// Other signature form, without a return type
+val myAdd =
+  (x: Int, y: Int) => x + y
+```
+
+`val` functions can be passed around and returned, functional programming style. This is not possible with `def` functions. Also, `def` functions must be declared inside a class.
 
 
 ## Compound types: case classes
@@ -61,7 +76,7 @@ val area =
 ```
 
 
-## Collection of values: enum
+## Collection of variants: enum
 
 Define a type that can take only the given possible values.
 Pattern matching is also useful here.
@@ -83,4 +98,22 @@ Some enum methods:
 ```scala
 PrimaryColor.values  // list possible values for that type
 PrimaryColor.valueOf("Green")  // string -> value type, useful for programmatic access
+```
+
+## Collection of values: List
+
+List holds values of the same type. They are implemented as linked-list and are immutable.
+
+```scala
+val mylist = List(1, 2, 3)  // note the type inference
+// returns:
+// val mylist: List[Int] = List(1, 2, 3)
+```
+
+Some useful methods on List:
+```scala
+mylist.size
+mylist.contains(2)
+mylist.map( x => x + 1 )
+mylist.filter( x => x < 2)
 ```
