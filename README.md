@@ -4,7 +4,7 @@ This document contains various bits of information about Scala, most (all?) are 
 
 Most of these notes were written while watching the [Effective Programming in Scala](https://www.coursera.org/learn/effective-scala) course.
 
-## Variables
+## Value binding
 
 `def` can be used to name values. It will be evaluated everytime it is called, but only when needed (lazy).
 
@@ -172,7 +172,6 @@ val emptyMap = Map.empty[String, Boolean]
 ```
 
 
-
 ## Mutable collections
 
 By default only immutable collections (such as List) are imported.
@@ -187,3 +186,68 @@ val myArray = mutable.ArrayBuffer("a", "b", "c")
 ```
 
 
+## Operations on collections
+
+Scala provides common collection operations.
+
+Some other collection operations:
+```scala
+val myList = List(1, 2, 3, 4)
+myList.size                      // returns: val res32: Int = 4
+myList.isEmpty                   // returns: val res33: Boolean = false
+myList.nonEmpty                  // returns: val res34: Boolean = true
+myList.contains(3)               // returns: val res35: Boolean = true
+myList.find(x => x % 2 == 0)     // returns: val res36: Option[Int] = Some(2)
+myList.filter(x => x % 2 == 0)   // returns: val res37: List[Int] = List(2, 4)
+
+// Operating on a Map is done with (key, value) => ...
+Map("a" -> 1, "b" -> 1, "c" -> 2).map((key, value) => key -> (value + 1))
+```
+
+Functional programming related operations:
+```scala
+myList.flatMap(x => List(x, x + 100))  // output size may not be input List size
+// returns:
+// val res38: List[Int] = List(1, 101, 2, 102, 3, 103, 4, 104)
+
+List(1, 2, 3).foldLeft(0)((acc, elt) => (acc + elt))
+// returns:
+// val res40: Int = 6
+
+// Same foldLeft but using braces, useful for longer inner function
+List(1, 2, 3).foldLeft(0) {
+  (acc, elt) =>
+    acc + elt
+}
+
+myList.groupBy(x => x % 2 == 0)
+// returns:
+// val res42: Map[Boolean, List[Int]] = HashMap(false -> List(1, 3), true -> List(2, 4))
+```
+
+Operation on sequence collections:
+```scala
+// prepending with `+:`, appending with `:+`
+0 +: List(1, 2) :+ 3  // returns: List(0, 1, 2, 3)
+"a" +: mutable.ArrayBuffer("b", "c") :+ "d"  // returns: ArrayBuffer(a, b, c, d)
+
+List(1, 2).head  // returns: 1
+mutable.ArrayBuffer("a", "b").tail  // returns: ArrayBuffer(b)
+```
+
+<!--
+Adding elements to a Map with `+` or `++`:
+```scala
+Map("a" -> true, "b" -> false) + ("c" -> true)  // a single element is added
+// returns:
+// val res28: Map[String, Boolean] = Map(a -> true, b -> false, c -> true)
+
+Map("a" -> true, "b" -> false) ++ Map("b" -> true, "d" -> true)  // many elements added or updated
+// returns:
+// val res31: Map[String, Boolean] = Map(a -> true, b -> true, d -> true)
+```
+-->
+
+<!-- TODO ## Handling possible null: Option
+// Option: None | Some(x), e.g. result of .find()
+-->
