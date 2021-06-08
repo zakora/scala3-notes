@@ -248,6 +248,22 @@ Map("a" -> true, "b" -> false) ++ Map("b" -> true, "d" -> true)  // many element
 ```
 -->
 
-<!-- TODO ## Handling possible null: Option
-// Option: None | Some(x), e.g. result of .find()
--->
+
+## Handling possible null: Option
+
+Dealing with null values by using `Option`, which match either `Some(x)` or `None`.
+
+```scala
+List(1, 2, 3, 4).find(x => x == 3) match
+  case Some(x) => println("We found it! " + x)
+  case None    => println("Not there")
+// prints:
+// We found it! 3
+```
+
+Provide a default on `None` with `.getOrElse`:
+```scala
+List(1, 2, 3, 4).find(x => x == 5).getOrElse(10)
+// returns:
+// val res49: Int = 10
+```
