@@ -159,7 +159,7 @@ val (_, number, _) = triple  // note the wildcard to discard some values
 // val number: Int = 1
 ```
 
-## Associtive array: Map
+## Associative array: Map
 
 Creating a Map:
 ```scala
@@ -199,6 +199,16 @@ myList.nonEmpty                  // returns: val res34: Boolean = true
 myList.contains(3)               // returns: val res35: Boolean = true
 myList.find(x => x % 2 == 0)     // returns: val res36: Option[Int] = Some(2)
 myList.filter(x => x % 2 == 0)   // returns: val res37: List[Int] = List(2, 4)
+myList.exists(x => x % 2 == 0)   // returns: val res55: Boolean = true
+myList.forAll(x => x % 2 == 0)   // returns: val res56: Boolean = false
+
+// Get an element by index (or by key for Map)
+myList.apply(2)                  // returns: val res59: Int = 3
+myList(2)                        // returns: val res60: Int = 3
+
+// On sequence collections
+List(1, 2).head  // returns: 1
+mutable.ArrayBuffer("a", "b").tail  // returns: ArrayBuffer(b)
 
 // Operating on a Map is done with (key, value) => ...
 Map("a" -> 1, "b" -> 1, "c" -> 2).map((key, value) => key -> (value + 1))
@@ -209,7 +219,9 @@ Functional programming related operations:
 myList.flatMap(x => List(x, x + 100))  // output size may not be input List size
 // returns:
 // val res38: List[Int] = List(1, 101, 2, 102, 3, 103, 4, 104)
+```
 
+```scala
 List(1, 2, 3).foldLeft(0)((acc, elt) => (acc + elt))
 // returns:
 // val res40: Int = 6
@@ -219,35 +231,58 @@ List(1, 2, 3).foldLeft(0) {
   (acc, elt) =>
     acc + elt
 }
+```
 
+```scala
 myList.groupBy(x => x % 2 == 0)
 // returns:
 // val res42: Map[Boolean, List[Int]] = HashMap(false -> List(1, 3), true -> List(2, 4))
 ```
 
-Operation on sequence collections:
+Other collections:
+- `HashMap`: a mutable Map
+- `BitSet`
+- `LazyList`
+
+It's more idiomatic to reach for immutable collections first, and only turn to mutable collections when needed.
+
+
+## Adding elements to collection
+
+Add a single element:
 ```scala
-// prepending with `+:`, appending with `:+`
+// Prepending (+:) and appending (:+) on sequence collections
 0 +: List(1, 2) :+ 3  // returns: List(0, 1, 2, 3)
 "a" +: mutable.ArrayBuffer("b", "c") :+ "d"  // returns: ArrayBuffer(a, b, c, d)
-
-List(1, 2).head  // returns: 1
-mutable.ArrayBuffer("a", "b").tail  // returns: ArrayBuffer(b)
 ```
 
-<!--
-Adding elements to a Map with `+` or `++`:
 ```scala
+// Adding (+) one element to a Map
 Map("a" -> true, "b" -> false) + ("c" -> true)  // a single element is added
 // returns:
 // val res28: Map[String, Boolean] = Map(a -> true, b -> false, c -> true)
+```
 
-Map("a" -> true, "b" -> false) ++ Map("b" -> true, "d" -> true)  // many elements added or updated
+Concatenating `++` two collections of the same type:
+```scala
+val origMap = Map("a" -> true, "b" -> false)
+origMap ++ Map("b" -> true, "d" -> true)  // many elements added or updated
 // returns:
 // val res31: Map[String, Boolean] = Map(a -> true, b -> true, d -> true)
-```
--->
 
+origMap  // note that with (++) the original collections is unchanged
+// returns:
+// val res51: Map[String, Boolean] = Map(a -> true, b -> false)
+```
+
+On mutable collections, `++=` and `+=` are used for concatenating an adding in-place.
+```scala
+val myMutable = mutable.ArrayBuffer(1, 2, 3)
+myMutable += 4
+myMutable ++= List(5, 6)
+// returns:
+// ArrayBuffer(1, 2, 3, 4, 5, 6)
+```
 
 ## Handling possible null: Option
 
