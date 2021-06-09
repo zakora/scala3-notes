@@ -302,3 +302,83 @@ List(1, 2, 3, 4).find(x => x == 5).getOrElse(10)
 // returns:
 // val res49: Int = 10
 ```
+
+
+## Iterating
+
+Range construction:
+
+```scala
+1 to 4           // 1, 2, 3, 4
+0 to 10 by 2     // 0 2 4 6 8 10
+5 until 0 by -1  // 5, 4, 3, 2, 1  (0 is excluded)
+```
+
+```scala
+val factorial: Int => Int =
+  n => (1 to n).foldLeft(1)((acc, elt) => acc * elt)
+factorial(4)
+// returns:
+// val res67: Int = 24
+```
+
+Looping with `for … yield` (the compiler will turn this into code using `.map`, `.flatMap` and a lazy filter):
+```scala
+val twodee = List(List(0, 1), List(2, 3, 4, 5), List(6, 7))
+
+// for (s) yield e
+// s: sequence of generators and filters
+//    generator   p <- e   are pattern matched
+// e: expression
+for
+  sublist <- twodee   // collection
+  number <- sublist   // nested collection
+  if number % 2 == 0  // guard
+yield number
+
+// returns:
+// val res68: List[Int] = List(0, 2, 4, 6)
+```
+
+`for … do` is synthetic sugar for a `.foreach`:
+```scala
+for sublist <- twodee do println(sublist)
+
+// prints:
+// List(0, 1)
+// List(2, 3, 4, 5)
+// List(6, 7)
+```
+
+Looping on condition is done with `while … do`:
+```scala
+var ii = 0
+while ii < 10 do
+  println(ii)
+  ii += 1
+
+// prints: numbers from 0 to 9
+```
+
+
+## Tail call recursion
+
+Recursion can be used as an alternative to `for` and `while` looping constructs.
+
+```scala
+val factorial: Int => Int =
+  n =>
+    n match
+      case 0 => 1
+      case _ => n * factorial(n - 1)  // note the call to itself
+```
+
+Use tail call recursion to avoid StackOverflowError:
+```scala
+def factorialTC(n: Int): Int =
+  def rec(n: Int, acc: Int): Int =
+    n match
+      case 0 => acc
+      case _ => rec(n - 1, n * acc)  // note the tail call: the recursive function call is the *only* expression
+  rec(n, 1)
+```
